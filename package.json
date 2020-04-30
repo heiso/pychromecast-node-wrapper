@@ -1,0 +1,40 @@
+{
+  "name": "pychromecast-wrapper",
+  "version": "0.0.1",
+  "description": "Node.js wrapper for pychromecast python library",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "lint": "standard",
+    "test": "jest",
+    "version:patch": "npm version patch",
+    "version:minor": "npm version minor",
+    "version:major": "npm version major"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heiso/pychromecast-wrapper.git"
+  },
+  "keywords": [
+    "pychromecast",
+    "pychromecast-wrapper",
+    "chromecast",
+    "wrapper",
+    "node"
+  ],
+  "author": "alexandre.moatty@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/heiso/pychromecast-wrapper/issues"
+  },
+  "homepage": "https://github.com/heiso/pychromecast-wrapper#readme",
+  "dependencies": {
+    "@types/mdns": "^0.0.33",
+    "mdns": "^2.5.1",
+    "python-shell": "^1.0.8"
+  },
+  "devDependencies": {
+    "jest": "^25.5.2",
+    "standard": "^14.3.3"
+  }
+}

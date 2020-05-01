@@ -36,6 +36,7 @@ describe('Chromecast', () => {
     jest.spyOn(mdns, 'createBrowser').mockImplementation(() => this.mockBrowser)
     const { Chromecast } = require('../lib/index')
     this.Chromecast = Chromecast
+    jest.spyOn(this.Chromecast.prototype, '_init').mockImplementation(() => {})
   })
 
   it('should instanciate a Chromecast instance when device is found', () => {
@@ -53,47 +54,54 @@ describe('Chromecast', () => {
     expect(this.Chromecast._map.size).toBe(0)
   })
 
-  it('should findAll chromecast', async () => {
-    this.mockBrowser.emit('serviceUp', mockMDNSService)
-    this.mockBrowser.emit('serviceUp', mockMDNSService2)
+  describe('Methods', () => {
+    beforeEach(() => {
+      this.mockBrowser.emit('serviceUp', mockMDNSService)
+      this.mockBrowser.emit('serviceUp', mockMDNSService2)
+    })
 
-    expect(
-      this.Chromecast.findAll({ uuid: '3324108a6f33ac8187be533c491b4b9b' })
-    ).toHaveLength(1)
+    afterEach(() => {
+      this.mockBrowser.emit('serviceDown', mockMDNSService)
+      this.mockBrowser.emit('serviceDown', mockMDNSService2)
+    })
 
-    expect(
-      this.Chromecast.findAll({ name: 'Chromecast' })
-    ).toHaveLength(2)
+    it('should findAll 1 chromecast', () => {
+      const all = this.Chromecast.findAll({ uuid: mockMDNSService2.txtRecord.id })
+      expect(all).toHaveLength(1)
+      expect(all[0].uuid).toBe(mockMDNSService2.txtRecord.id)
+    })
 
-    expect(
-      this.Chromecast.findAll({ ip: '192.168.0.20' })
-    ).toHaveLength(1)
+    it('should findAll 2 chromecasts', () => {
+      const all = this.Chromecast.findAll({ name: 'Chromecast' })
+      expect(all).toHaveLength(2)
+    })
 
-    expect(
-      this.Chromecast.findAll()
-    ).toHaveLength(2)
+    it('should findAll chromecast', () => {
+      const all = this.Chromecast.findAll()
+      expect(all).toHaveLength(2)
+    })
 
-    this.mockBrowser.emit('serviceDown', mockMDNSService)
-    this.mockBrowser.emit('serviceDown', mockMDNSService2)
-  })
+    it('should findAll no chromecast', () => {
+      const all = this.Chromecast.findAll({ kwak: true })
+      expect(all).toHaveLength(0)
+    })
 
-  it('should findOne chromecast', async () => {
-    this.mockBrowser.emit('serviceUp', mockMDNSService)
-    this.mockBrowser.emit('serviceUp', mockMDNSService2)
+    it('should findOne first chromecast', () => {
+      const one = this.Chromecast.findOne({ uuid: mockMDNSService.txtRecord.id })
+      expect(one).toBeInstanceOf(this.Chromecast)
+      expect(one.uuid).toBe(mockMDNSService.txtRecord.id)
+    })
 
-    expect(
-      this.Chromecast.findOne({ uuid: '3324108a6f33ac8187be533c491b4b9b' })
-    ).toBeInstanceOf(this.Chromecast)
+    it('should findOne second chromecast', () => {
+      const one = this.Chromecast.findOne({ ip: mockMDNSService2.addresses[0] })
+      expect(one).toBeInstanceOf(this.Chromecast)
+      expect(one.uuid).toBe(mockMDNSService2.txtRecord.id)
+    })
 
-    expect(
-      this.Chromecast.findOne({ name: 'Chromecast' })
-    ).toBeInstanceOf(this.Chromecast)
-
-    expect(
-      this.Chromecast.findOne({ ip: '192.168.0.20' })
-    ).toBeInstanceOf(this.Chromecast)
-
-    this.mockBrowser.emit('serviceDown', mockMDNSService)
-    this.mockBrowser.emit('serviceDown', mockMDNSService2)
+    it('should findOne first find chromecast', () => {
+      const one = this.Chromecast.findOne({ name: 'Chromecast' })
+      expect(one).toBeInstanceOf(this.Chromecast)
+      expect(one.uuid).toBe(mockMDNSService.txtRecord.id)
+    })
   })
 })

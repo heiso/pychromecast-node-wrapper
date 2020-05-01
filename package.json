@@ -1,6 +1,6 @@
 {
   "name": "pychromecast-wrapper",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Node.js wrapper for pychromecast python library",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

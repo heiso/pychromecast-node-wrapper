@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heiso/pychromecast-wrapper.git"
+    "url": "git+https://github.com/heiso/pychromecast-node-wrapper.git"
   },
   "keywords": [
     "pychromecast",
@@ -25,9 +25,9 @@
   "author": "alexandre.moatty@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/heiso/pychromecast-wrapper/issues"
+    "url": "https://github.com/heiso/pychromecast-node-wrapper/issues"
   },
-  "homepage": "https://github.com/heiso/pychromecast-wrapper#readme",
+  "homepage": "https://github.com/heiso/pychromecast-node-wrapper#readme",
   "dependencies": {
     "@types/mdns": "^0.0.33",
     "mdns": "^2.5.1",
